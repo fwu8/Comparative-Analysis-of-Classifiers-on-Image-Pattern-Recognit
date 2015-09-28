@@ -1,5 +1,6 @@
 function [ upq ] = central_moment( img, p, q )
 % This function calculate the central moment of input image.
+% Invarient to translation
 imgSize = 28;
 imgArea = imgSize^2;
 mx = round(moment(img, 1, 0) / moment(img, 0, 0));
