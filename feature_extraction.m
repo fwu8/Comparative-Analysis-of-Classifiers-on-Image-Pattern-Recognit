@@ -4,4 +4,4 @@ load digittrain_dataset;
 
 %imshow(xTrainImages{1});
 img = xTrainImages{2};
-normalized_central_moment(img, 2, 2)
+hu_moments(img)
