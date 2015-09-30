@@ -6,11 +6,10 @@ load('digittrain_dataset.mat');
 load('digittest_dataset.mat');
 
 %% feature extraction
-pos_num = 6;
-neg_num = 2;
+pos_num = 3;
 % Training data features
 pos_indx = find(tTrain(pos_num,:) == 1);
-neg_indx = find(tTrain(neg_num,:) == 1);
+neg_indx = find(tTrain(pos_num,:) == 0);
 train_features = [];
 for i = 1:length(pos_indx)
     train_features(:, i) = ...
@@ -20,10 +19,10 @@ for i = 1:length(neg_indx)
     train_features(:, i+length(pos_indx)) = ...
         extractHOGFeatures(xTrainImages{neg_indx(i)},'CellSize',[10 10]);
 end
-train_label = [zeros(1, length(pos_indx)), ones(1, length(neg_indx))];
+train_label = [ones(1, length(pos_indx)), -ones(1, length(neg_indx))];
 % Testing data features
 pos_indx = find(tTest(pos_num,:) == 1);
-neg_indx = find(tTest(neg_num,:) == 1);
+neg_indx = find(tTest(pos_num,:) == 0);
 test_features = [];
 for i = 1:length(pos_indx)
     test_features(:, i) = ...
@@ -33,7 +32,7 @@ for i = 1:length(neg_indx)
     test_features(:, i+length(pos_indx)) = ...
         extractHOGFeatures(xTestImages{neg_indx(i)},'CellSize',[10 10]);
 end
-test_label = [zeros(1, length(pos_indx)), ones(1, length(neg_indx))];
+test_label = [ones(1, length(pos_indx)), -ones(1, length(neg_indx))];
 
 %% Training
 net = newff(train_features,train_label, [20,1],{'tansig', 'purelin'});
@@ -45,5 +44,5 @@ net = train(net,train_features,train_label);
 
 %% Testing
 predict = sim(net,test_features);
-predict = round(predict);
+predict = f(predict);
 acc = length(find(predict == test_label))/length(predict);
