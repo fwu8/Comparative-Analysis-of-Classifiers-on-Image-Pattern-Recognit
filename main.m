@@ -10,3 +10,9 @@ one_versus_all_classifier(xTrainImages, tTrain, 'train', 'nn')
 
 % test using neural network classifier
 one_versus_all_classifier(xTestImages, tTest, 'test', 'nn')
+
+% train using SVM classifier
+one_versus_all_classifier(xTrainImages, tTrain, 'train', 'svm')
+
+% test using SVM classifier
+one_versus_all_classifier(xTestImages, tTest, 'test', 'svm')

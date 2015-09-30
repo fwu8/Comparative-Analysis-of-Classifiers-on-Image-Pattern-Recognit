@@ -25,30 +25,30 @@ if strcmp(method,'train')
         % train model
         if strcmp(classifier, 'nn')
             model{num} = nn(feature, labels, 'train');
-        elseif strcmp(classifer,'svm')
-            
+        elseif strcmp(classifier,'svm')
+            model{num} = svm(feature, labels, 'train');
         end
     end
     % save model
     if strcmp(classifier, 'nn')
         save('nn_model.mat','model');
-    elseif strcmp(classifer,'svm')
-        
+    elseif strcmp(classifier,'svm')
+        save('svm_model.mat','model');
     end
 elseif strcmp(method, 'test')
     % load model
     if strcmp(classifier, 'nn')
         load('nn_model.mat');
-    elseif strcmp(classifer,'svm')
-        
+    elseif strcmp(classifier,'svm')
+        load('svm_model.mat');
     end
     score = [];
     for num = 1:10
         % test
         if strcmp(classifier, 'nn')
             score(num, :) = nn(features, label, 'test', model{num});
-        elseif strcmp(classifer,'svm')
-            
+        elseif strcmp(classifier,'svm')
+            score(num, :) = svm(features, label, 'test', model{num});
         end
     end
     for i = 1:length(images)
